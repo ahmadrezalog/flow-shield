@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'none'; object-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none';">
+  <title>Flow Shield by A.G</title>
+  <link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<div class="app-container">
+  
+  <!-- ۱. نوار بالایی: برند و دکمه راهنما -->
+  <header class="top-bar">
+    <div class="brand">
+      <div class="logo-wrapper">
+        <img src="assets/icon-32.png" alt="Logo" class="logo-img">
+        <span class="pulse-ring"></span>
+      </div>
+      <div class="brand-info">
+        <span class="app-title">Flow Shield by A.G</span>
+        <span class="badge">Free & Unlimited — For my beloved people</span>
+      </div>
+    </div>
+    <button id="help-btn" class="icon-btn" title="راهنمای افزونه" aria-label="راهنما">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    </button>
+  </header>
+
+  <!-- ۲. کارت اصلی فعال‌سازی (Hero Power Card) -->
+  <section class="power-card">
+    <div class="power-info">
+      <span class="power-title">سیستم دور زدن تحریم</span>
+      <span class="power-desc">پچ آنی درخواست‌های موقعیت مکانی</span>
+    </div>
+    <button id="toggle" class="power-switch" role="switch" aria-checked="false" disabled>
+      <span class="switch-core"></span>
+    </button>
+  </section>
+
+  <!-- ۳. نوار وضعیت زنده -->
+  <div id="status" class="status-pill" role="status">
+    <span class="status-dot status-dot--idle"></span>
+    <span class="status-text">بررسی اولیه موتور...</span>
+  </div>
+
+  <!-- ۴. باکس هوشمند تب جاری (تنها زمانی که کاربر روی فلو باشد یا نیاز به رفرش باشد فعال‌تر می‌شود) -->
+  <div id="tab-detector" class="tab-box" hidden>
+    <div class="tab-box-content">
+      <span class="tab-icon">🌐</span>
+      <div class="tab-details">
+        <span class="tab-name">تب Google Flow فعال است</span>
+        <span class="tab-hint">آماده اعمال تغییرات روی تب</span>
+      </div>
+    </div>
+    <button id="reload" class="btn-refresh">
+      <span>تازه‌سازی هوشمند تب</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"></path><path d="M1 20v-6h6"></path><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+    </button>
+  </div>
+
+  <!-- ۵. دکمه باز کردن سریع فلو -->
+  <div class="action-section">
+    <button id="open" class="btn-launch">
+      <span class="btn-icon">⚡</span>
+      <span>ورود مستقیم به Google Flow</span>
+    </button>
+  </div>
+
+  <!-- نمایش خطاها در صورت وقوع -->
+  <p id="error" class="error-banner" role="alert"></p>
+
+<!-- ۶. فوتر با لینک وب‌سایت -->
+  <footer class="app-footer">
+    <div class="sys-health">
+      <span class="health-dot"></span>
+      <span>موتور فعال</span>
+    </div>
+    <a href="https://arghasemi.ir" target="_blank" rel="noopener noreferrer" class="footer-link">
+      <span>arghasemi.ir</span>
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+        <polyline points="15 3 21 3 21 9"></polyline>
+        <line x1="10" y1="14" x2="21" y2="3"></line>
+      </svg>
+    </a>
+  </footer>
+
+</div>
+<script src="panel.js"></script>
+</body>
+</html>

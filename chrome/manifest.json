@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "Flow Shield by A.G",
+  "version": "1.0.0",
+  "minimum_chrome_version": "111",
+  "description": "دستیار دور زدن محدودیت منطقه‌ای Google Flow",
+  "permissions": [
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://flow.google.com/*",
+    "https://flow.cfcnode.com/*"
+  ],
+  "background": {
+    "service_worker": "app.js"
+  },
+  "action": {
+    "default_title": "Flow Shield",
+    "default_popup": "panel.html",
+    "default_icon": {
+      "16": "assets/icon-16.png",
+      "32": "assets/icon-32.png",
+      "48": "assets/icon-48.png",
+      "128": "assets/icon-128.png"
+    }
+  },
+  "icons": {
+    "16": "assets/icon-16.png",
+    "32": "assets/icon-32.png",
+    "48": "assets/icon-48.png",
+    "128": "assets/icon-128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://flow.google.com/*"
+      ],
+      "js": [
+        "link.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://flow.google.com/*"
+      ],
+      "js": [
+        "stat.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
