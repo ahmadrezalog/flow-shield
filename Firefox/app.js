@@ -1,6 +1,13 @@
-// آدرس و تنظیمات دریافت مشخصات پچ
-const SPEC_URL = 'https://flow.cfcnode.com/v1/flow-spec';
-const SPEC_TTL_MS = 6 * 60 * 60 * 1000; // کش به مدت ۶ ساعت
+// اسپک پین‌شده لوکال — هیچ درخواستی به سرور بیرونی زده نمی‌شود
+const LOCAL_SPEC = {
+  v: 1,
+  origin: 'https://flow.google.com',
+  path: '/_/AiSandboxAngularFrontend/data/batchexecute',
+  rpcids: 'cPZSdc',
+  tag: 'wrb.fr',
+  flagIndex: 30,
+  minLength: 32
+};
 
 // تنظیمات تزریق مستقیم اسکریپت به محیط اصلی صفحه گوگل
 const registration = {
@@ -15,39 +22,20 @@ const registration = {
 const REGISTRATIONS = [registration];
 const REGISTRATION_IDS = REGISTRATIONS.map(item => item.id);
 
-let specCache = null;
-let specFetchedAt = 0;
-let specInFlight = null;
+// همان قراردادی که engine.js انتظار دارد
+function isValidSpec(spec) {
+  return !!spec &&
+    typeof spec === 'object' &&
+    typeof spec.path === 'string' && spec.path.startsWith('/') &&
+    typeof spec.rpcids === 'string' && spec.rpcids.length > 0 &&
+    typeof spec.tag === 'string' && spec.tag.length > 0 &&
+    Number.isInteger(spec.flagIndex) && spec.flagIndex >= 0 &&
+    Number.isInteger(spec.minLength) && spec.minLength > spec.flagIndex;
+}
 
-// دریافت داینامیک مشخصات دور زدن از سرور
+// بازگرداندن اسپک لوکال (بدون شبکه)
 async function fetchSpec() {
-  const now = Date.now();
-  if (specCache && (now - specFetchedAt < SPEC_TTL_MS)) {
-    return specCache;
-  }
-  if (specInFlight) {
-    return specInFlight;
-  }
-
-  specInFlight = (async () => {
-    try {
-      const response = await fetch(SPEC_URL, { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error('spec HTTP ' + response.status);
-      }
-      const data = await response.json();
-      specCache = data;
-      specFetchedAt = Date.now();
-      return data;
-    } catch (err) {
-      console.warn('CFC Flow: دریافت spec ناموفق بود:', err.message);
-      return specCache;
-    } finally {
-      specInFlight = null;
-    }
-  })();
-
-  return specInFlight;
+  return isValidSpec(LOCAL_SPEC) ? LOCAL_SPEC : null;
 }
 
 // تابع فعال‌سازی خودکار و اطمینان از ثبت بودن اسکریپت
@@ -95,18 +83,18 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (!sender.tab && message?.type === 'setEnabled') {
     (async () => {
       const scripts = await chrome.scripting.getRegisteredContentScripts({ ids: REGISTRATION_IDS });
-      
+
       if (message.enabled && scripts.length === 0) {
         await chrome.scripting.registerContentScripts(REGISTRATIONS);
       } else if (!message.enabled && scripts.length > 0) {
         await chrome.scripting.unregisterContentScripts({ ids: REGISTRATION_IDS });
       }
-      
+
       sendResponse({ ok: true });
     })().catch(err => {
       sendResponse({ ok: false, error: err.message });
     });
-    
+
     return true; // فعال نگه‌داشتن پورت برای پاسخ ناهمگام (Async)
   }
 });
