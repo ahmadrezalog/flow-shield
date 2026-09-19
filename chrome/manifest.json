@@ -1,15 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Flow Shield by A.G",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "minimum_chrome_version": "111",
   "description": "دستیار دور زدن محدودیت منطقه‌ای Google Flow",
   "permissions": [
     "scripting"
   ],
   "host_permissions": [
-    "https://flow.google.com/*",
-    "https://flow.cfcnode.com/*"
+    "https://flow.google.com/*"
   ],
   "background": {
     "service_worker": "app.js"
